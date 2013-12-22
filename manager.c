@@ -1,4 +1,3 @@
-
 #include<stdio.h>
 #include<sys/types.h>
 #include<sys/stat.h>
@@ -11,7 +10,7 @@
 
 int main(int argc, char **argv )
 {
-  struct sembuf mybuf;            //создаем семафоры
+        struct sembuf mybuf;            //создаем семафоры
         key_t key;
         int semid;
         umask(0);
@@ -22,6 +21,8 @@ int main(int argc, char **argv )
                 error("Can't generate key");
         if ( (semid = semget(key, 3, 0666|IPC_CREAT )) < 0)
                 error("Can't get semid");
+
+
         mybuf.sem_op = 1;
         mybuf.sem_flg = 0;
         mybuf.sem_num = 1;
@@ -58,5 +59,3 @@ int main(int argc, char **argv )
 
         return(0);
 }
-
-
