@@ -34,7 +34,8 @@ char* find_type_of_file(mode_t f_type)
                         }
                 }
                 return type;
-        }int main(int argc, char **argv)
+        }
+int main(int argc, char **argv)
 {       int datafd;
         DIR *dirfd;
         char *pathdir=argv[1];
