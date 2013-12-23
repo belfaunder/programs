@@ -16,6 +16,7 @@ int main(int argc, char **argv )
         umask(0);
         int pid;
         pid=fork();
+        // AP: менеджер не должен ничего знать о семафорах
         char pathname[] = "manager.c";
         if(( key = ftok( pathname, 0) ) < 0)
                 error("Can't generate key");
