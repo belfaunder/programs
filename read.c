@@ -135,6 +135,7 @@ int main(int argc, char **argv)
                         if((stat(path, &buf)) < 0)                                      //читаем атрибуты этого файла
                                 error( "Can't get file's data");
 
+                        // AP: создайте структуру и зайписывайте через нее а не построчно
                         if ((S_ISDIR(buf.st_mode)) != 1)                                //есди директория, то
                         {
                                 char *type = find_type_of_file(buf.st_mode);                    //тип файла
