@@ -90,6 +90,7 @@ public class MatrixFunction
 						matrix[p][i] = matrix[p][j];
 						matrix[p][j] = buffer;
 					}
+					numerator = 0 - numerator;
 				}
 			}
 			for (int j=i+1; j<size; j++){
