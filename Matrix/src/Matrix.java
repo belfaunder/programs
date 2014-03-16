@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class Matrix 
 {	private int size;
 	private int [][] value;
@@ -7,38 +9,40 @@ public class Matrix
 		value = new int [size][size];
 	}
 	
-	public Matrix (int newSize, int [][] newValue){
-		size = newSize;
+	public Matrix (int newSize, int [][] newValue)
+	{	size = newSize;
 		value = newValue;
-		// Add Exception for value with wrong size! 
 	}
 	
-	public void changeRaws(int number1, int number2){
+	public void changeRaws(int number1, int number2)
+	{
 		int buffer;
-		for (int i=0; i<size; i++){
+		for (int i=0; i<size; i++)
+		{
 			buffer = value[i][number1];
 			value[i][number1] = value[i][number2];
 			value[i][number2] = buffer;
 		}
 	}
 	
-	public int getSize(){
-		return size;
+	public int getSize()
+	{		return size;
 	}
 	
-	public void setValue(int [][] newValue){
-		value = newValue;
+	public void setValue(int [][] newValue)
+	{		value = newValue;
 	}
 	
-	public int [][] getValue(){
-		return value;
+	public int [][] getValue()
+	{		return value;
 	}
 	
-	
-		
-	public void getVal( FillingMatrix filling, Matrix matrix)
-	{	if ( filling.wayOfFilling.equals("read") )
-		{	filling.read( matrix);
+	public void fill( FillingMatrix filling) throws IOException
+	{	if ( filling.wayOfFilling.equals("console") )
+		{	filling.read(this);
+		}
+		else
+		{	filling.fromFile(this);		
 		}
 	}
 	
@@ -50,6 +54,17 @@ public class Matrix
 			}
 			System.out.println();
 		}		
+	}	
+	public Matrix matrixCopy()
+	{	int size = this.size;
+		Matrix matrix = new Matrix(size);
+		int [][] matrix1 = matrix.getValue();
+		int [][] matrix2 = this.getValue();
+		for(int i = 0; i < size*size; i++)
+		{	
+			matrix1[i%size][i/size] = matrix2[i%size][i/size];
+		}
+		matrix.setValue(matrix1);
+		return matrix;
 	}
-	
 }

@@ -12,9 +12,9 @@ public class MatrixFunction
 	}
 	
 	//ищет сумму двух матриц
-	public static Matrix Sum( Matrix matrix1, Matrix matrix2) throws IllegalStateException
+	public static Matrix sum( Matrix matrix1, Matrix matrix2) throws IllegalStateException
 	{	if(matrix1.getSize() != matrix2.getSize())
-		{	throw new IllegalStateException("–азмеры матриц не совпадают, введите заново");
+		{	throw new IllegalStateException("–азмеры матриц не совпадают");
 		}
 	
 		int size = matrix1.getSize();
@@ -33,8 +33,12 @@ public class MatrixFunction
 	}
 	
 	//ищет произведение двух матриц
-	public static Matrix multiplication(Matrix matrix1, Matrix matrix2)
-	{	int size = matrix1.getSize();
+	public static Matrix multiplication(Matrix matrix1, Matrix matrix2) throws IllegalStateException
+	{	if(matrix1.getSize() != matrix2.getSize())
+		{	throw new IllegalStateException("–азмеры матриц не совпадают");
+		}
+	
+		int size = matrix1.getSize();
 		int [][] result = new int [size][size];
 		int [][] operand1 = matrix1.getValue();
 		int [][] operand2 = matrix2.getValue();
@@ -78,35 +82,37 @@ public class MatrixFunction
 	}
 	
 	//создет гаусову матрицу из данной
-	public static GaussMatrix gauss (Matrix argument)
-	{	int size = argument.getSize();
+	public static GaussMatrix gauss (final Matrix matrixArg)
+	{	Matrix argument = matrixArg.matrixCopy();
+		int size = argument.getSize();
 		int denominator = 1;
 		int multiplier1;
 		int multiplier2;
 		int numerator = 1;
 		int [][] matrix = argument.getValue();
-		for (int i=0; i<size; i++){
-			if (matrix[i][i] == 0){
-				int j = i;
-				while ((j<size) && (matrix [i][j] == 0)){
+		for (int i=0; i<size; i++)
+		{	if (matrix[i][i] == 0)
+			{	int j = i;
+				while ((j<size) && (matrix [i][j] == 0))
 					j++;
-				}
-				if (j != size){
-					int buffer;
-					for (int p=i; p<size; p++){
-						buffer = matrix[p][i];
+				if (j != size)
+				{	int buffer;
+					for (int p=i; p<size; p++)
+					{	buffer = matrix[p][i];
 						matrix[p][i] = matrix[p][j];
 						matrix[p][j] = buffer;
 					}
 					numerator = - numerator;
 				}
 			}
-			for (int j=i+1; j<size; j++){
-				if (matrix [i][i] == 0){
-					multiplier2 = 1;
+			for (int j=i+1; j<size; j++)
+			{
+				if (matrix [i][i] == 0)
+				{	multiplier2 = 1;
 					multiplier1 = 0;
-				}else{
-					int lcm = lcm(matrix[i][i], matrix[i][j]);
+				}
+				else
+				{	int lcm = lcm(matrix[i][i], matrix[i][j]);
 					multiplier1 = lcm / matrix[i][i];
 					if (matrix[i][j]!=0) 
 						multiplier2 = lcm / matrix[i][j];
@@ -114,8 +120,8 @@ public class MatrixFunction
 						multiplier2 = 1;
 					denominator = denominator * multiplier2;
 				}
-				for (int k=i; k<size; k++){
-					matrix[k][j] = multiplier2 * matrix[k][j] - multiplier1 * matrix[k][i];
+				for (int k=i; k<size; k++)
+				{	matrix[k][j] = multiplier2 * matrix[k][j] - multiplier1 * matrix[k][i];
 				}
 			}
 			numerator = numerator * matrix[i][i];	
@@ -124,10 +130,9 @@ public class MatrixFunction
 		return gaussMatrix;
 	}
 	
-	//ищет детермиант
-	public static int calculateDeterminant(Matrix argument)
-	{	
-		GaussMatrix gaussMatrix = gauss(argument);
+	//ищем детермиант
+	public static int calculateDeterminant( Matrix argument)
+	{	GaussMatrix gaussMatrix = gauss(argument);
 		return gaussMatrix.getDeterminant();
 	}
 }
